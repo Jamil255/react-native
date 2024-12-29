@@ -1,39 +1,63 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Colors } from '@/constants/Colors'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { useEffect } from 'react'
+import { Appearance } from 'react-native'
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = Appearance.getColorScheme()
+  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  })
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded]);
+  }, [loaded])
 
   if (!loaded) {
-    return null;
+    return null
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.headerBackGround,
+        },
+        headerTintColor: theme.tint,
+        headerShadowVisible: false,
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{ headerShown: false, title: 'Home' }}
+      />
+      <Stack.Screen
+        name="contact"
+        options={{
+          title: 'contact',
+          headerShown: true,
+          headerTitle: 'Contact Us ',
+        }}
+      />
+      <Stack.Screen
+        name="menu"
+        options={{
+          title: 'menu',
+          headerShown: true,
+          headerTitle: 'Menu Shop List',
+        }}
+      />
+      <Stack.Screen
+        name="+not-found"
+        options={{ headerShown: false, title: 'OOPs' }}
+      />
+    </Stack>
+  )
 }

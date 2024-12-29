@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageBackground } from 'react-native'
 import downloadImg from '@/assets/images/download.jpeg'
 import { Link } from 'expo-router'
+import React from 'react'
+import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
 
 const app = () => {
-  const [count, setCount] = useState(0)
   return (
     <View style={style.container}>
       <ImageBackground
@@ -13,13 +12,12 @@ const app = () => {
         style={style.image}
       >
         <Text style={style.text}>Cofee Shop </Text>
-        <Link href={'/explore'} style={style.link}>
-          Explore
+        <Link href={'/contact'} style={{ marginHorizontal: 'auto' }} asChild>
+          <Pressable style={style.btn}>
+            <Text style={style.textBtn}> Contact Us</Text>
+          </Pressable>
         </Link>
       </ImageBackground>
-
-      {/* <Text style={style.text}>you click={count}Times</Text>
-      <Button onPress={() => setCount(count + 1)} title="click me" /> */}
     </View>
   )
 }
@@ -37,6 +35,8 @@ const style = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     marginBottom: 10,
     textAlign: 'center',
+    justifyContent: 'center',
+    padding: 10,
   },
   image: {
     width: '100%',
@@ -45,11 +45,21 @@ const style = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
-  link: {
+  btn: {
+    margin: '10px',
+    padding: '10px',
+    borderRadius: '10px',
+    height: 60,
+    border: '1px solid red',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  textBtn: {
+    color: 'white',
     fontSize: 20,
-    color: 'red',
     fontWeight: 'bold',
-    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
+
 export default app
